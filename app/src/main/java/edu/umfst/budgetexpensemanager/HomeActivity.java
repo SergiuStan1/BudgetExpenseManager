@@ -24,6 +24,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private BottomNavigationView bottomNavigationView;
     private FrameLayout frameLayout;
 
+    //Fragment
+    private DashboardFragment dashboardFragment;
+    private IncomeFragment incomeFragment;
+    private ExpenseFragment expenseFragment;
+
+
     @SuppressLint("WrongViewCast")
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -48,20 +54,30 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = findViewById(R.id.naView);
         navigationView.setNavigationItemSelectedListener(this);
 
+        dashboardFragment = new DashboardFragment();
+        incomeFragment = new IncomeFragment();
+        expenseFragment = new ExpenseFragment();
+
+        // Crash dar nu stiu de ce
+       //setFragment(dashboardFragment);
+
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
 
                     case R.id.dashboard:
+                        setFragment(dashboardFragment);
                         bottomNavigationView.setItemBackgroundResource(R.color.dashboard_color);
                         return true;
 
                     case R.id.income:
+                        setFragment(incomeFragment);
                         bottomNavigationView.setItemBackgroundResource(R.color.income_color);
                         return true;
 
                     case R.id.expense:
+                        setFragment(expenseFragment);
                         bottomNavigationView.setItemBackgroundResource(R.color.expense_color);
                         return true;
 
@@ -73,6 +89,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
     }
+
+    private void setFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.dashboard, fragment);
+        fragmentTransaction.commit();
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -91,13 +114,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         switch (itemId) {
             case R.id.dashboard:
-
+                setFragment(dashboardFragment);
                 break;
             case R.id.income:
-
+                setFragment(incomeFragment);
                 break;
             case R.id.expense:
-
+                setFragment(expenseFragment);
                 break;
         }
         if(fragment != null) {
